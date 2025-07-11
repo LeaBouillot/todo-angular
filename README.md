@@ -69,32 +69,33 @@ ng generate pipe shared/capitalize --standalone
 
 ---
 
+
 ## 🧭 4. Routing (Standalone)
 
 ### 📄 `src/app/app.routes.ts`
 
 ```ts
-import { Routes } from "@angular/router";
-import { Login } from "./auth/login/login";
-import { Logout } from "./auth/logout/logout";
-import { TaskList } from "./tasks/task-list/task-list";
-import { Register } from "./auth/register/register";
+import { Routes } from '@angular/router';
+import { LoginComponent } from './auth/login/login.component';
+import { LogoutComponent } from './auth/logout/logout.component';
+import { TaskListComponent } from './tasks/task-list/task-list.component';
 
 export const routes: Routes = [
-  { path: "", redirectTo: "tasks", pathMatch: "full" },
-  { path: "register", component: Register },
-  { path: "login", component: Login },
-  { path: "logout", component: Logout },
-  { path: "tasks", component: TaskList },
-  { path: "**", redirectTo: "tasks" },
+  { path: '', redirectTo: 'tasks', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'logout', component: LogoutComponent },
+  { path: 'tasks', component: TaskListComponent },
+  { path: '**', redirectTo: 'tasks' }
 ];
 ```
+
+---
 
 ## ⚙️ 5. Configuration de l'application
 
 ### 📄 `src/app/app.config.ts`
 
-````ts
+```ts
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
@@ -102,88 +103,28 @@ import { routes } from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes)]
 };
+```
 
 ---
 
-## 🌱 6. inscription
+## 🧩 6. Composant racine
 
-- Composant `Register` standalone avec formulaire + styles
-- Méthode simple `register()` dans `src/app/core/auth.ts`
-- Route `/register`
-- Lien dans la navbar
-
-### 📄 `src/app/auth/register.ts`
+### 📄 `src/app/app.ts`
 
 ```ts
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import { Auth } from "../../core/auth";
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { Navbar } from '../app/navbar';
 
 @Component({
-  selector: "app-register",
+  selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: "./register.html",
-  styleUrl: "./register.css",
+  imports: [RouterOutlet, Navbar],
+  templateUrl: './app.html',
+  styleUrl: './app.css'
 })
-export class Register {
-  username = "";
-  email = "";
-  password = "";
-
-  constructor(private auth: Auth, private router: Router) {}
-
-  register() {
-    const success = this.auth.register(this.username, this.email, this.password);
-    if (success) {
-      alert("Inscription réussie ! Vous pouvez maintenant vous connecter.");
-      this.router.navigate(["/login"]);
-    } else {
-      alert("Erreur lors de l'inscription.");
-    }
-  }
+export class App {
+  protected title = 'todo-app';
 }
-````
 
----
-
-# 3. Ajouter méthode `register` dans `auth.ts`
-
-Dans `src/app/core/auth.ts` ajoute :
-
-```ts
-register(username: string, email: string, password: string): boolean {
-  console.log('Inscription:', username, email, password);
-  return true;
-}
-```
-
----
-
-# 4. Ajouter la route dans `auth-routes.ts`
-
-```ts
-import { Routes } from "@angular/router";
-import { LoginComponent } from "./login";
-import { RegisterComponent } from "./register";
-
-export const authRoutes: Routes = [
-  { path: "login", component: LoginComponent },
-  { path: "register", component: RegisterComponent }, // nouvelle route
-  { path: "logout", component: LogoutComponent },
-];
-```
-
----
-
-# 5. Ajouter lien vers l’inscription dans la navbar ou login
-
-Exemple dans navbar (`navbar.ts`) :
-
-```html
-<a routerLink="/login" *ngIf="!auth.isAuthenticated()">Login</a>
-<a routerLink="/register" *ngIf="!auth.isAuthenticated()">Inscription</a>
-<a (click)="logout()" *ngIf="auth.isAuthenticated()">Logout</a>
 ```
