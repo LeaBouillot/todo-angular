@@ -8,8 +8,8 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 todo-app/
 ├── src/
 │   └── app/
-│       ├── core/               # Services globaux (ex : auth.service.ts)
-│       ├── auth/               # Composants standalone : login/logout
+│       ├── core/               # Services globaux
+│       ├── auth/               # Composants standalone : login/logout/register
 │       ├── tasks/              # Composants standalone : liste & formulaire des tâches
 │       ├── shared/             # Pipes/directives réutilisables
 │       ├── app.config.ts       # Configuration Angular (routes, providers)
@@ -44,13 +44,13 @@ ng serve
 
 ## 🧰 3. Génération des composants & services
 
-### 🔐 Auth (login/logout)
+### 🔐 Auth (login/logout/register)
 
 ```bash
 ng generate component auth/login --standalone
 ng generate component auth/logout --standalone
 ng generate component auth/register --standalone
-ng generate service core/auth
+ng generate service core/auth-service
 ```
 
 ### ✅ Tasks (tâches)
@@ -58,7 +58,7 @@ ng generate service core/auth
 ```bash
 ng generate component tasks/task-list --standalone
 ng generate component tasks/task-form --standalone
-ng generate service tasks/task
+ng generate service tasks/task-service
 ```
 
 ### 📦 Partagé
