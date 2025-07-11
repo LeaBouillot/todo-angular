@@ -23,8 +23,8 @@ todo-app/
 ## 🚀 2. Création du projet
 
 ```bash
-ng new todo-app --standalone --routing=false --style=css
-cd todo-app
+ng new todo-angular --standalone --routing=false --style=css
+cd todo-angular
 ng serve
 ```
 
